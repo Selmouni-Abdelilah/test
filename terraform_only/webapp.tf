@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "forimport" {
   provider = azurerm.source
   name = var.resgrp_name
   location = var.location
