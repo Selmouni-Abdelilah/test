@@ -55,10 +55,13 @@ resource "azurerm_app_service" "name" {
     tags = data.azurerm_app_service.name.tags
     app_settings = data.azurerm_app_service.name.app_settings
 
-    connection_string {
-        name  = data.azurerm_app_service.name.connection_string[1].name
-        type  = data.azurerm_app_service.name.connection_string[1].type
-        value = data.azurerm_app_service.name.connection_string[1].value
+    dynamic "connection_string" {
+      for_each = data.azurerm_app_service.name.connection_string
+      content {
+        name  = connection_string.value.name
+        type  = connection_string.value.type
+        value = connection_string.value.value
+      }
     }
     source_control {
         repo_url   = data.azurerm_app_service.name.source_control[0].repo_url
