@@ -56,9 +56,9 @@ resource "azurerm_app_service" "name" {
     app_settings = data.azurerm_app_service.name.app_settings
 
     connection_string {
-        name  = data.azurerm_app_service.name.connection_string[0].name
-        type  = data.azurerm_app_service.name.connection_string[0].type
-        value = data.azurerm_app_service.name.connection_string[0].value
+        name  = data.azurerm_app_service.name.connection_string[1].name
+        type  = data.azurerm_app_service.name.connection_string[1].type
+        value = data.azurerm_app_service.name.connection_string[1].value
     }
     source_control {
         repo_url   = data.azurerm_app_service.name.source_control[0].repo_url
