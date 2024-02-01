@@ -1,3 +1,8 @@
+resource "azurerm_resource_group" "rg" {
+  provider = azurerm.source
+  name = var.resgrp_name
+  location = var.location
+}
 data "azurerm_resource_group" "rg" {
   provider = azurerm.source
   name = var.resgrp_name
