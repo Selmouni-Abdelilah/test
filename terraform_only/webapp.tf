@@ -41,20 +41,23 @@ resource "azurerm_app_service" "name" {
     resource_group_name = azurerm_resource_group.rg.name
     app_service_plan_id = azurerm_app_service_plan.name.id
     site_config {
-    default_documents = data.azurerm_app_service.name.site_config[0].default_documents
-    ftps_state = data.azurerm_app_service.name.site_config[0].ftps_state 
-    health_check_path = data.azurerm_app_service.name.site_config[0].health_check_path
-    always_on = data.azurerm_app_service.name.site_config[0].always_on
-    http2_enabled = data.azurerm_app_service.name.site_config[0].http2_enabled
+        default_documents = data.azurerm_app_service.name.site_config[0].default_documents
+        ftps_state = data.azurerm_app_service.name.site_config[0].ftps_state 
+        health_check_path = data.azurerm_app_service.name.site_config[0].health_check_path
+        always_on = data.azurerm_app_service.name.site_config[0].always_on
+        http2_enabled = data.azurerm_app_service.name.site_config[0].http2_enabled
     }
     tags = data.azurerm_app_service.name.tags
     app_settings = data.azurerm_app_service.name.app_settings
 
-    connection_string {
-        name  = data.azurerm_app_service.name.connection_string[0].name
-        type  = data.azurerm_app_service.name.connection_string[0].type
-        value = data.azurerm_app_service.name.connection_string[0].value
+   dynamic "connection_string" {
+    for_each = data.azurerm_app_service.name.connection_string
+    content {
+      name  = connection_string.value.name
+      type  = connection_string.value.type
+      value = connection_string.value.value
     }
+  }
     source_control {
         repo_url   = data.azurerm_app_service.name.source_control[0].repo_url
         branch  = data.azurerm_app_service.name.source_control[0].branch
