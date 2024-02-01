@@ -1,3 +1,8 @@
+resource "azurerm_resource_group" "forimport" {
+  provider = azurerm.source
+  name = var.resgrp_name
+  location = var.location
+}
 data "azurerm_resource_group" "rg" {
   provider = azurerm.source
   name = var.resgrp_name
@@ -50,14 +55,14 @@ resource "azurerm_app_service" "name" {
     tags = data.azurerm_app_service.name.tags
     app_settings = data.azurerm_app_service.name.app_settings
 
-   dynamic "connection_string" {
-    for_each = data.azurerm_app_service.name.connection_string
-    content {
-      name  = connection_string.value.name
-      type  = connection_string.value.type
-      value = connection_string.value.value
+    dynamic "connection_string" {
+      for_each = data.azurerm_app_service.name.connection_string
+      content {
+        name  = connection_string.value.name
+        type  = connection_string.value.type
+        value = connection_string.value.value
+      }
     }
-  }
     source_control {
         repo_url   = data.azurerm_app_service.name.source_control[0].repo_url
         branch  = data.azurerm_app_service.name.source_control[0].branch
